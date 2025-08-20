@@ -1,40 +1,312 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My First AWS Deployment</title>
+    <title>Explore Amazon Web Services (AWS)</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom Styles -->
     <style>
         body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-            text-align: center;
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a; /* Near-black background */
+            color: #f0f0f0;
         }
-        .container {
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        .gradient-text {
+            background: linear-gradient(90deg, #FF9900, #F5A623);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        h1 {
-            color: #333;
+        .card {
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease-in-out;
         }
-        p {
-            color: #666;
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: #FF9900;
+            background-color: rgba(255, 153, 0, 0.05);
+        }
+        .animated-element {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .animated-element.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .stat-counter {
+            font-size: 3rem;
+            font-weight: 800;
+        }
+        .glow-effect {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 153, 0, 0.15) 0%, rgba(255, 153, 0, 0) 70%);
+            pointer-events: none;
+            z-index: -1;
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1>Hello from AWS! 🚀</h1>
-        <p>This is a simple static website deployed on Amazon S3.</p>
-        <p>It's a great way to host your projects, portfolios, and more.</p>
-    </div>
+<body class="overflow-x-hidden">
+
+    <!-- Glow effect for background -->
+    <div class="glow-effect top-0 left-0 -translate-x-1/2 -translate-y-1/2"></div>
+    <div class="glow-effect bottom-0 right-0 translate-x-1/2 translate-y-1/2"></div>
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-black/30 backdrop-blur-md border-b border-white/10">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <!-- AWS Logo SVG -->
+                <svg class="h-8 w-auto" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M38.3996 78.4001C38.3996 73.1334 42.0663 69.1334 46.9329 69.1334H62.3996V92.2667H46.9329C42.0663 92.2667 38.3996 88.2667 38.3996 83.4001V78.4001Z" fill="#FF9900"></path><path d="M62.3999 69.1333H77.8666C82.7333 69.1333 86.3999 73.1333 86.3999 78.4V83.4C86.3999 88.2667 82.7333 92.2667 77.8666 92.2667H62.3999V69.1333Z" fill="#F5A623"></path><path d="M38.3999 56C38.3999 46.4 46.1332 38.6667 55.7332 38.6667H62.3999V69.1333H46.9332C42.0666 69.1333 38.3999 65.1333 38.3999 60.2667V56Z" fill="#FF9900"></path><path d="M62.3999 38.6667H72.2666C81.8666 38.6667 89.5999 46.4 89.5999 56V60.2667C89.5999 65.1333 85.9333 69.1333 81.0666 69.1333H62.3999V38.6667Z" fill="#F5A623"></path></svg>
+                <span class="text-xl font-bold text-white">AWS</span>
+            </div>
+            <nav class="hidden md:flex space-x-8 items-center">
+                <a href="#why-aws" class="text-gray-300 hover:text-orange-400 transition-colors duration-300">Why AWS</a>
+                <a href="#services" class="text-gray-300 hover:text-orange-400 transition-colors duration-300">Services</a>
+                <a href="#stats" class="text-gray-300 hover:text-orange-400 transition-colors duration-300">Impact</a>
+                <a href="#contact" class="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-4 py-2 rounded-lg transition-colors duration-300">Contact Us</a>
+            </nav>
+            <button class="md:hidden text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative h-screen flex items-center justify-center text-center overflow-hidden pt-16">
+            <div class="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(to_bottom,white_5%,transparent_80%)]"></div>
+            <div class="container mx-auto px-6 z-10">
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-4 animated-element">
+                    The World's Most <span class="gradient-text">Comprehensive</span><br> and Broadly Adopted Cloud
+                </h1>
+                <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-8 animated-element" style="transition-delay: 200ms;">
+                    AWS offers over 200 fully featured services from data centers globally. Millions of customers—including the fastest-growing startups, largest enterprises, and leading government agencies—are using AWS to lower costs, become more agile, and innovate faster.
+                </p>
+                <div class="animated-element" style="transition-delay: 400ms;">
+                    <a href="#why-aws" class="bg-gradient-to-r from-orange-500 to-yellow-500 text-white font-bold py-3 px-8 rounded-full text-lg hover:shadow-lg hover:shadow-orange-500/30 transform hover:scale-105 transition-all duration-300">
+                        Discover the Power
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why AWS Section -->
+        <section id="why-aws" class="py-20 md:py-32">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-3 animated-element">Why Choose AWS?</h2>
+                    <p class="text-gray-400 max-w-2xl mx-auto animated-element" style="transition-delay: 150ms;">Unlock unparalleled advantages for your business with the leader in cloud computing.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Card 1: Scalability -->
+                    <div class="card p-8 rounded-2xl animated-element">
+                        <div class="text-orange-400 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12" /></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-3">Infinite Scalability</h3>
+                        <p class="text-gray-400">Instantly scale your resources up or down to meet demand. Pay only for what you use and eliminate the need for expensive hardware provisioning.</p>
+                    </div>
+                    <!-- Card 2: Security -->
+                    <div class="card p-8 rounded-2xl animated-element" style="transition-delay: 200ms;">
+                        <div class="text-orange-400 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-3">Unmatched Security</h3>
+                        <p class="text-gray-400">Leverage a cloud infrastructure built to satisfy the security requirements for military, global banks, and other high-sensitivity organizations.</p>
+                    </div>
+                    <!-- Card 3: Innovation -->
+                    <div class="card p-8 rounded-2xl animated-element" style="transition-delay: 400ms;">
+                        <div class="text-orange-400 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-3">Pace of Innovation</h3>
+                        <p class="text-gray-400">Access the latest technologies like machine learning, AI, IoT, and serverless computing to innovate faster and stay ahead of the competition.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Services Section -->
+        <section id="services" class="py-20 md:py-32 bg-black/20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-3 animated-element">Core AWS Services</h2>
+                    <p class="text-gray-400 max-w-2xl mx-auto animated-element" style="transition-delay: 150ms;">Explore the foundational building blocks of the AWS cloud.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Service 1: EC2 -->
+                    <div class="card p-6 text-center rounded-2xl animated-element">
+                        <img src="https://placehold.co/100x100/1a1a1a/FF9900?text=EC2" alt="EC2 Icon" class="mx-auto mb-4 rounded-full" onerror="this.onerror=null;this.src='https://placehold.co/100x100/1a1a1a/FF9900?text=EC2';">
+                        <h3 class="text-xl font-bold text-white">Amazon EC2</h3>
+                        <p class="text-gray-400 mt-2 text-sm">Secure and resizable compute capacity in the cloud.</p>
+                    </div>
+                    <!-- Service 2: S3 -->
+                    <div class="card p-6 text-center rounded-2xl animated-element" style="transition-delay: 200ms;">
+                        <img src="https://placehold.co/100x100/1a1a1a/FF9900?text=S3" alt="S3 Icon" class="mx-auto mb-4 rounded-full" onerror="this.onerror=null;this.src='https://placehold.co/100x100/1a1a1a/FF9900?text=S3';">
+                        <h3 class="text-xl font-bold text-white">Amazon S3</h3>
+                        <p class="text-gray-400 mt-2 text-sm">Object storage built to store and retrieve any amount of data.</p>
+                    </div>
+                    <!-- Service 3: RDS -->
+                    <div class="card p-6 text-center rounded-2xl animated-element" style="transition-delay: 400ms;">
+                        <img src="https://placehold.co/100x100/1a1a1a/FF9900?text=RDS" alt="RDS Icon" class="mx-auto mb-4 rounded-full" onerror="this.onerror=null;this.src='https://placehold.co/100x100/1a1a1a/FF9900?text=RDS';">
+                        <h3 class="text-xl font-bold text-white">Amazon RDS</h3>
+                        <p class="text-gray-400 mt-2 text-sm">Managed relational database service for MySQL, PostgreSQL, etc.</p>
+                    </div>
+                    <!-- Service 4: Lambda -->
+                    <div class="card p-6 text-center rounded-2xl animated-element" style="transition-delay: 600ms;">
+                        <img src="https://placehold.co/100x100/1a1a1a/FF9900?text=Lambda" alt="Lambda Icon" class="mx-auto mb-4 rounded-full" onerror="this.onerror=null;this.src='https://placehold.co/100x100/1a1a1a/FF9900?text=Lambda';">
+                        <h3 class="text-xl font-bold text-white">AWS Lambda</h3>
+                        <p class="text-gray-400 mt-2 text-sm">Run code without provisioning or managing servers.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Animated Stats Section -->
+        <section id="stats" class="py-20 md:py-32">
+            <div class="container mx-auto px-6">
+                <div class="grid md:grid-cols-3 gap-12 text-center">
+                    <div class="animated-element">
+                        <span class="stat-counter gradient-text" data-target="33">0</span><span class="gradient-text text-5xl font-bold">%</span>
+                        <p class="text-gray-400 mt-2 text-lg">Market Share in Cloud Infrastructure</p>
+                    </div>
+                    <div class="animated-element" style="transition-delay: 200ms;">
+                        <span class="stat-counter gradient-text" data-target="99">0</span><span class="gradient-text text-5xl font-bold">.99</span><span class="gradient-text text-5xl font-bold">%</span>
+                        <p class="text-gray-400 mt-2 text-lg">Uptime SLA for most services</p>
+                    </div>
+                    <div class="animated-element" style="transition-delay: 400ms;">
+                        <span class="stat-counter gradient-text" data-target="100">0</span><span class="gradient-text text-5xl font-bold">+</span>
+                        <p class="text-gray-400 mt-2 text-lg">Availability Zones Worldwide</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Customer Showcase -->
+        <section class="py-20 md:py-32">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-3 animated-element">Trusted by Millions</h2>
+                    <p class="text-gray-400 max-w-2xl mx-auto animated-element" style="transition-delay: 150ms;">From startups to global enterprises, the world's leading organizations run on AWS.</p>
+                </div>
+                <div class="flex flex-wrap justify-center items-center gap-x-12 gap-y-8">
+                    <img src="https://placehold.co/150x60/0a0a0a/444444?text=NETFLIX" alt="Netflix Logo" class="h-10 animated-element" onerror="this.onerror=null;this.src='https://placehold.co/150x60/0a0a0a/444444?text=NETFLIX';">
+                    <img src="https://placehold.co/150x60/0a0a0a/444444?text=REDDIT" alt="Reddit Logo" class="h-10 animated-element" style="transition-delay: 100ms;" onerror="this.onerror=null;this.src='https://placehold.co/150x60/0a0a0a/444444?text=REDDIT';">
+                    <img src="https://placehold.co/150x60/0a0a0a/444444?text=AIRBNB" alt="Airbnb Logo" class="h-12 animated-element" style="transition-delay: 200ms;" onerror="this.onerror=null;this.src='https://placehold.co/150x60/0a0a0a/444444?text=AIRBNB';">
+                    <img src="https://placehold.co/150x60/0a0a0a/444444?text=TWITCH" alt="Twitch Logo" class="h-10 animated-element" style="transition-delay: 300ms;" onerror="this.onerror=null;this.src='https://placehold.co/150x60/0a0a0a/444444?text=TWITCH';">
+                    <img src="https://placehold.co/150x60/0a0a0a/444444?text=SAMSUNG" alt="Samsung Logo" class="h-10 animated-element" style="transition-delay: 400ms;" onerror="this.onerror=null;this.src='https://placehold.co/150x60/0a0a0a/444444?text=SAMSUNG';">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-black/40 border-t border-white/10 mt-20">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-4">Amazon Web Services</h3>
+                    <p class="text-gray-400">Start building on the world's leading cloud platform today.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-orange-400">Documentation</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-orange-400">Pricing Calculator</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-orange-400">Support Center</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Connect With Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.71v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path></svg></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.206v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H6.328C5.051 1 4 2.05 4 3.326v17.347C4 21.948 5.051 23 6.328 23h11.34c1.277 0 2.327-1.052 2.327-2.326V3.326C20 2.05 18.946 1 17.668 1z" clip-rule="evenodd"></path></svg></a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-white/10 pt-8 text-center text-gray-500">
+                <p>&copy; 2024 Amazon Web Services, Inc. or its affiliates. All rights reserved. This is a conceptual design.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Animations -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Intersection Observer for fade-in animations ---
+            const animatedElements = document.querySelectorAll('.animated-element');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); // Optional: stop observing once visible
+                    }
+                });
+            }, {
+                threshold: 0.1 // Trigger when 10% of the element is visible
+            });
+
+            animatedElements.forEach(el => {
+                observer.observe(el);
+            });
+
+            // --- Stat Counter Animation ---
+            const counters = document.querySelectorAll('.stat-counter');
+            let hasAnimatedCounters = false;
+
+            const counterObserver = new IntersectionObserver((entries) => {
+                const [entry] = entries;
+                if (entry.isIntersecting && !hasAnimatedCounters) {
+                    hasAnimatedCounters = true;
+                    counters.forEach(counter => {
+                        const target = +counter.getAttribute('data-target');
+                        animateValue(counter, 0, target, 2000);
+                    });
+                    counterObserver.unobserve(entry.target);
+                }
+            }, {
+                threshold: 0.5
+            });
+            
+            if (document.querySelector('#stats')) {
+               counterObserver.observe(document.querySelector('#stats'));
+            }
+
+
+            function animateValue(obj, start, end, duration) {
+                let startTimestamp = null;
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                    const currentValue = Math.floor(progress * (end - start) + start);
+                    obj.innerHTML = currentValue.toLocaleString();
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    } else {
+                        // Ensure final value is exact
+                        obj.innerHTML = end.toLocaleString();
+                    }
+                };
+                window.requestAnimationFrame(step);
+            }
+        });
+    </script>
+
 </body>
 </html>
